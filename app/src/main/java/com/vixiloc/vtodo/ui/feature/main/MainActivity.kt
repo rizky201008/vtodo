@@ -1,4 +1,4 @@
-package com.vixiloc.vtodo
+package com.vixiloc.vtodo.ui.feature.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
