@@ -21,6 +21,7 @@ import com.vixiloc.vtodo.data.model.Todo
 fun TodoItem(
     modifier: Modifier = Modifier,
     todo: Todo,
+    changeChecked: (Todo) -> Unit
 ) {
     val textStyle =
         if (todo.completed) MaterialTheme.typography.bodyMedium.copy(textDecoration = TextDecoration.LineThrough) else MaterialTheme.typography.bodyMedium
@@ -31,7 +32,7 @@ fun TodoItem(
             .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Checkbox(checked = todo.completed, onCheckedChange = {})
+        Checkbox(checked = todo.completed, onCheckedChange = { changeChecked(todo) })
         Spacer(modifier = Modifier.width(10.dp))
         Text(text = todo.name, style = textStyle)
     }

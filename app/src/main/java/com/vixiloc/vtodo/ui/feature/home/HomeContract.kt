@@ -11,6 +11,8 @@ class HomeContract {
         data class ChangeInput(val name: InputName, val value: TextFieldValue) : Event()
         data class ShowAddTodo(val show: Boolean) : Event()
         data class ShowEditTodo(val show: Boolean) : Event()
+        data class ChangeTodoStatus(val todo: Todo) : Event()
+        data object ClearInputs : Event()
     }
 
     enum class InputName {
@@ -22,6 +24,7 @@ class HomeContract {
         val todos: List<Todo> = emptyList(),
         val showAddTodo: Boolean = false,
         val showEditTodo: Boolean = false,
+        val selectedTodo: Todo? = null,
         val searchValue: TextFieldValue = TextFieldValue(),
         val inputTodoName: TextFieldValue = TextFieldValue(),
     )

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.FloatingActionButton
@@ -17,23 +18,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import com.vixiloc.vtodo.data.model.Todo
 import com.vixiloc.vtodo.ui.feature.common.VTfSearch
 import com.vixiloc.vtodo.ui.feature.home.HomeContract
 import com.vixiloc.vtodo.ui.feature.home.HomeViewModel
 import com.vixiloc.vtodo.ui.theme.VTodoTheme
 import org.koin.androidx.compose.koinViewModel
-import kotlin.random.Random
 
 class HomeScreen : Screen {
     @Composable
@@ -51,7 +45,9 @@ fun Home(modifier: Modifier = Modifier) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = {
+                    onEvent(HomeContract.Event.ShowAddTodo(true))
+                },
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary
             ) {
@@ -91,23 +87,19 @@ fun Home(modifier: Modifier = Modifier) {
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            val fakeTodo1 = Todo().apply {
-                name = "This is a fake todo"
-                completed = false
-            }
-            val fakeTodo2 = Todo().apply {
-                name = "This is a fake todo"
-                completed = true
+            LazyColumn {
+                items(items = state.todos, key = { it._id.toString() }) { todo ->
+                    TodoItem(
+                        todo = todo,
+                        modifier = Modifier.padding(bottom = 10.dp),
+                        changeChecked = {
+                            onEvent(HomeContract.Event.ChangeTodoStatus(it))
+                        }
+                    )
+                }
             }
 
-            LazyColumn {
-                items(5) {
-                    TodoItem(todo = fakeTodo1, modifier = Modifier.padding(bottom = 10.dp))
-                }
-                items(5) {
-                    TodoItem(todo = fakeTodo2, modifier = Modifier.padding(bottom = 10.dp))
-                }
-            }
+            CreateUpdateDialog(viewModel = viewModel)
         }
     }
 }

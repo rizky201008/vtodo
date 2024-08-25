@@ -14,7 +14,7 @@ class TodoRepositoryImpl(private val dao: TodoDao) : TodoRepository {
     override suspend fun updateTodo(data: Todo): Todo {
         dao.update(data)
 
-        return dao.find(data._id.toString())
+        return data
     }
 
     override suspend fun deleteTodo(data: Todo) {
