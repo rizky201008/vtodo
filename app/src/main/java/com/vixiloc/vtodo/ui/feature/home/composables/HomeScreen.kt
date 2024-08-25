@@ -1,29 +1,39 @@
 package com.vixiloc.vtodo.ui.feature.home.composables
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
-import androidx.compose.material3.Button
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
-import com.vixiloc.vtodo.data.model.Task
+import com.vixiloc.vtodo.data.model.Todo
+import com.vixiloc.vtodo.ui.feature.common.VTfSearch
+import com.vixiloc.vtodo.ui.feature.home.HomeContract
+import com.vixiloc.vtodo.ui.feature.home.HomeViewModel
 import com.vixiloc.vtodo.ui.theme.VTodoTheme
+import org.koin.androidx.compose.koinViewModel
+import kotlin.random.Random
 
 class HomeScreen : Screen {
     @Composable
@@ -32,51 +42,71 @@ class HomeScreen : Screen {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Home(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(14.dp)
-    ) {
-        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
-            Button(onClick = { /*TODO*/ }, shape = MaterialTheme.shapes.small) {
-                Text(text = "Create New Task")
-                Icon(imageVector = Icons.Outlined.Add, contentDescription = null)
+    val viewModel: HomeViewModel = koinViewModel()
+    val state = viewModel.state.value
+    val onEvent = viewModel::onEvent
+
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = { /*TODO*/ },
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    modifier = Modifier.padding(10.dp)
+                ) {
+                    Text(
+                        text = "Create",
+                        style = MaterialTheme.typography.titleSmall
+                    )
+                    Icon(
+                        imageVector = Icons.Outlined.Add,
+                        contentDescription = "Add button"
+                    )
+                }
             }
         }
+    ) { padding ->
+        Column(
+            modifier = modifier
+                .padding(padding)
+                .fillMaxSize()
+                .padding(14.dp)
+        ) {
+            VTfSearch(
+                value = state.searchValue,
+                onValueChange = {
+                    onEvent(
+                        HomeContract.Event.ChangeInput(
+                            HomeContract.InputName.Search,
+                            it
+                        )
+                    )
+                },
+            )
 
-        LazyColumn {
-            stickyHeader {
-                Text(
-                    modifier = Modifier.padding(bottom = 12.dp),
-                    text = "Pending",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-                )
+            Spacer(modifier = Modifier.height(10.dp))
+
+            val fakeTodo1 = Todo().apply {
+                name = "This is a fake todo"
+                completed = false
             }
-            items(5) {
-                TaskItem(
-                    modifier = Modifier.padding(bottom = 9.dp),
-                    data = Task().apply {
-                        name = "Task $it"
-                    }
-                )
+            val fakeTodo2 = Todo().apply {
+                name = "This is a fake todo"
+                completed = true
             }
-            stickyHeader {
-                Text(
-                    modifier = Modifier.padding(bottom = 12.dp),
-                    text = "Completed",
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
-                )
-            }
-            items(5) {
-                TaskItem(
-                    modifier = Modifier.padding(bottom = 9.dp),
-                    data = Task().apply {
-                        name = "Task $it"
-                    }
-                )
+
+            LazyColumn {
+                items(5) {
+                    TodoItem(todo = fakeTodo1, modifier = Modifier.padding(bottom = 10.dp))
+                }
+                items(5) {
+                    TodoItem(todo = fakeTodo2, modifier = Modifier.padding(bottom = 10.dp))
+                }
             }
         }
     }
