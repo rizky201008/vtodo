@@ -74,4 +74,5 @@ dependencies {
     implementation(libs.voyager.transitions)
     implementation(libs.realm.kotlin.base)
     implementation(libs.koin)
+    implementation(libs.material.kolor)
 }
