@@ -10,7 +10,7 @@ class HomeContract {
         data object Edit : Event()
         data class ChangeInput(val name: InputName, val value: TextFieldValue) : Event()
         data class ShowAddTodo(val show: Boolean) : Event()
-        data class ShowEditTodo(val show: Boolean) : Event()
+        data class ShowEditTodo(val show: Boolean,val todo: Todo?) : Event()
         data class ChangeTodoStatus(val todo: Todo) : Event()
         data object ClearInputs : Event()
     }

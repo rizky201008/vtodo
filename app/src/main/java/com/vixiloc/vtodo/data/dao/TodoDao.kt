@@ -10,4 +10,5 @@ interface TodoDao {
     suspend fun find(todoId: String): Todo
     suspend fun all(): Flow<List<Todo>>
     suspend fun findLastInserted(): Todo
+    suspend fun search(query: String): Flow<List<Todo>>
 }

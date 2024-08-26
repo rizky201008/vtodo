@@ -25,7 +25,13 @@ class HomeViewModel : ViewModel() {
 
             is HomeContract.Event.Edit -> {
                 viewModelScope.launch {
-//                    updateTodo()
+                    val todo = Todo().apply {
+                        name = state.value.inputTodoName.text
+                        _id = state.value.selectedTodo!!._id
+                        completed = state.value.selectedTodo!!.completed
+                    }
+                    updateTodo(todo)
+                    _state.value = state.value.copy(showEditTodo = false)
                 }
             }
 
@@ -37,6 +43,9 @@ class HomeViewModel : ViewModel() {
 
                     HomeContract.InputName.Search -> {
                         _state.value = state.value.copy(searchValue = event.value)
+                        viewModelScope.launch {
+                            search(event.value.text)
+                        }
                     }
                 }
             }
@@ -46,7 +55,11 @@ class HomeViewModel : ViewModel() {
             }
 
             is HomeContract.Event.ShowEditTodo -> {
-                _state.value = state.value.copy(showEditTodo = event.show)
+                _state.value = state.value.copy(
+                    showEditTodo = event.show,
+                    selectedTodo = event.todo,
+                    inputTodoName = TextFieldValue(event.todo?.name ?: "")
+                )
             }
 
             is HomeContract.Event.ChangeTodoStatus -> {
@@ -66,8 +79,14 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    private suspend fun search(text: String) {
+        repository.searchTodos(text).collect { todos ->
+            _state.value = state.value.copy(todos = todos)
+        }
+    }
+
     private suspend fun updateTodo(todo: Todo) {
-        val newTodo = repository.updateTodo(todo)
+        repository.updateTodo(todo)
         clearInputs()
     }
 

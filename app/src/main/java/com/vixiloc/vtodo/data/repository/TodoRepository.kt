@@ -9,4 +9,5 @@ interface TodoRepository {
     suspend fun deleteTodo(data: Todo)
     suspend fun findTodo(todoId: String): Todo
     suspend fun allTodo(): Flow<List<Todo>>
+    suspend fun searchTodos(query: String): Flow<List<Todo>>
 }

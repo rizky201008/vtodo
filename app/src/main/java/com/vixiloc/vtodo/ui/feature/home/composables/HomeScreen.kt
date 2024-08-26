@@ -94,6 +94,9 @@ fun Home(modifier: Modifier = Modifier) {
                         modifier = Modifier.padding(bottom = 10.dp),
                         changeChecked = {
                             onEvent(HomeContract.Event.ChangeTodoStatus(it))
+                        },
+                        onClick = {
+                            onEvent(HomeContract.Event.ShowEditTodo(true, it))
                         }
                     )
                 }

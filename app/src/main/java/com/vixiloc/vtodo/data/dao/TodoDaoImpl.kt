@@ -23,6 +23,11 @@ class TodoDaoImpl(private val realm: Realm) : TodoDao {
         return data
     }
 
+    override suspend fun search(query: String): Flow<List<Todo>> {
+        val todos = realm.query<Todo>("name CONTAINS[c] $0", query).find()
+        return todos.asFlow().map { it.list }
+    }
+
     override suspend fun delete(data: Todo) {
         realm.write {
             val todo = this.query<Todo>("_id == $0", data._id).find().first()

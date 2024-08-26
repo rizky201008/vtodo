@@ -28,4 +28,8 @@ class TodoRepositoryImpl(private val dao: TodoDao) : TodoRepository {
     override suspend fun allTodo(): Flow<List<Todo>> {
         return dao.all()
     }
+
+    override suspend fun searchTodos(query: String): Flow<List<Todo>> {
+        return dao.search(query)
+    }
 }
