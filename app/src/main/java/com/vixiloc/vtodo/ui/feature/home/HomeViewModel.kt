@@ -73,10 +73,20 @@ class HomeViewModel : ViewModel() {
                 }
             }
 
+            is HomeContract.Event.DeleteTodo -> {
+                viewModelScope.launch {
+                    delete(event.todo)
+                }
+            }
+
             is HomeContract.Event.ClearInputs -> {
                 clearInputs()
             }
         }
+    }
+
+    private suspend fun delete(todo: Todo) {
+        repository.deleteTodo(todo)
     }
 
     private suspend fun search(text: String) {

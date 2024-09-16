@@ -97,6 +97,9 @@ fun Home(modifier: Modifier = Modifier) {
                         },
                         onClick = {
                             onEvent(HomeContract.Event.ShowEditTodo(true, it))
+                        },
+                        onDelete = {
+                            onEvent(HomeContract.Event.DeleteTodo(it))
                         }
                     )
                 }

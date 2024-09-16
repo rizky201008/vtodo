@@ -12,6 +12,7 @@ class HomeContract {
         data class ShowAddTodo(val show: Boolean) : Event()
         data class ShowEditTodo(val show: Boolean,val todo: Todo?) : Event()
         data class ChangeTodoStatus(val todo: Todo) : Event()
+        data class DeleteTodo(val todo: Todo) : Event()
         data object ClearInputs : Event()
     }
 

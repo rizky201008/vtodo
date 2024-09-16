@@ -75,4 +75,5 @@ dependencies {
     implementation(libs.realm.kotlin.base)
     implementation(libs.koin)
     implementation(libs.material.kolor)
+    implementation(libs.swipe)
 }
