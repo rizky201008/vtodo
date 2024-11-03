@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.vixiloc.vtodo"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.vixiloc.vtodo"
         minSdk = 27
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
