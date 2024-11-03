@@ -1,4 +1,4 @@
-package com.vixiloc.vtodo.ui.app
+package com.vixiloc.vtodo
 
 import android.app.Application
 import com.vixiloc.vtodo.di.daoModule
