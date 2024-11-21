@@ -2,14 +2,11 @@ package com.vixiloc.vtodo.ui.theme
 
 import android.app.Activity
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import com.materialkolor.rememberDynamicColorScheme
 
@@ -34,7 +31,7 @@ fun VTodoTheme(
 
 
     MaterialTheme(
-        colorScheme = colorScheme.copy(surface = Color(0xFFF4F4F4)),
+        colorScheme = colorScheme.copy(surface = Color(0xFFB7B7B7)),
         typography = Typography,
         content = content
     )
