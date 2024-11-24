@@ -38,6 +38,7 @@ voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.
 voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
 realm-kotlin-base = { module = "io.realm.kotlin:library-base", version.ref = "realm" }
 koin = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version = "6.6.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

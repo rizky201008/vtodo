@@ -76,4 +76,5 @@ dependencies {
     implementation(libs.koin)
     implementation(libs.material.kolor)
     implementation(libs.swipe)
+    implementation(libs.lottie.compose)
 }
